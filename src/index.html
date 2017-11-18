@@ -42,12 +42,21 @@
   <script>
     //Adapted from https://stackoverflow.com/questions/9372033/how-do-i-pass-parameters-that-is-input-textbox-value-to-ajax-in-jquery
     $("#form-eliza-user-input").submit(
+      //On submit event
       function(event) {
+        //Prevent the default behaviour from happening (Post/GET)
         event.preventDefault();
+        //Get the element by ID and take whatever value is inside
        $.get('/input-text', { value: $('#input-text').val() } )
           .done(function (data) {
+            //add the data (what was typed into the text box) to the textarea ID = output-area
+            //and store it in result variable
             var result = $('#output-area').append(data).find('#output-area').html();
-            $('#output-area').html(result)
+            //Finally put the result bak into the textarea
+            //this will keep the text for each submit
+            $('#output-area').html(result);
+            //Clear input text after submit
+            $('input[type="text"]').val('');
            // $('#output-area').val(data);
           })
       });
