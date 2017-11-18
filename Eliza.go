@@ -8,6 +8,7 @@
 *https://stackoverflow.com/questions/9372033/how-do-i-pass-parameters-that-is-input-textbox-value-to-ajax-in-jquery
 *https://github.com/data-representation/go-ajax/blob/master/static/index.html
 *https://stackoverflow.com/questions/23805443/remove-the-form-input-fields-data-after-click-on-submit
+*https://stackoverflow.com/questions/12430907/create-div-using-form-data-with-ajax-jquery
  */
 
 package main

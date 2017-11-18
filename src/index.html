@@ -9,9 +9,10 @@
    
     button{display:inline}
     .form-group{padding-bottom: 1rem}
-    .head{color: rgb(255, 255, 255)}
-    div.form-control{height: 400px;overflow:scroll;}
-    div.response{background-color: paleturquoise;min-height: 50px;width: 50%;}
+    .head{color: rgb(255, 255, 255);text-align: center;}
+    #main-view{height: 400px;overflow-y:scroll;}
+    div.response{float:left;position:relative;background-color: paleturquoise;min-height: 50px;width: 70%;word-wrap: break-word;padding: 5px;margin:5px;border-radius: 5px}
+    div.eliza-response{float:right;position:relative;background-color:palegoldenrod;min-height: 50px;width: 70%;word-wrap: break-word;padding: 5px;margin:5px;border-radius: 5px}
     </style>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
@@ -22,10 +23,11 @@
  
         <form id="form-eliza-user-input">
             <div class="form-group">
+               
                 <div class="form-control" id="main-view" >
-                  <div class="response" id="output-area">
+                  
 
-                  </div>
+                  
 
                 </div>
               </div>
@@ -47,6 +49,7 @@
    
   </body>
   <script>
+    
     //Adapted from https://stackoverflow.com/questions/9372033/how-do-i-pass-parameters-that-is-input-textbox-value-to-ajax-in-jquery
     $("#form-eliza-user-input").submit(
       //On submit event
@@ -56,32 +59,20 @@
         //Get the element by ID and take whatever value is inside
        $.get('/input-text', { value: $('#input-text').val() } )
           .done(function (data) {
+            
+            //Adapted from https://stackoverflow.com/questions/12430907/create-div-using-form-data-with-ajax-jquery
             //add the data (what was typed into the text box) to the textarea ID = output-area
             //and store it in result variable
-            var result = $('#output-area').append(data).find('#output-area').html();
-            //Finally put the result bak into the textarea
-            //this will keep the text for each submit
-            $('#output-area').html(result);
-            //Clear input text after submit
+            $('#main-view').append('<div class="response" id="output-area"><p>'+$('#input-text').val()+'</p></div>').html();
+            //Dynamically create divs from an ajax response and user input from the text area.
+            //These can then be styled and positioned with floats.
+            $('#main-view').append('<div class="eliza-response" id="eliza-output-area"><p>'+(data)+'</p></div>').html();
+            //clear the textbox after submit
             $('input[type="text"]').val('');
-           // $('#output-area').val(data);
+            
           })
-      });
-      // adapted from https://stackoverflow.com/questions/15688656/how-to-keep-a-div-scrolled-to-the-bottom-as-html-content-is-appended-to-it-via-j
-      var $cont = $('#main-view');
-      $cont[0].scrollTop = $cont[0].scrollHeight;
-      
-      $('#input-text').keyup(function(e) {
-          if (e.keyCode == 13) {
-             // $cont.append('<p>' + $(this).val() + '</p>');
-              $cont[0].scrollTop = $cont[0].scrollHeight;
-             // $(this).val('');
-          }
           
-      })
-      .focus();
-    
-
-
+      });
+     
   </script>
 </html>
