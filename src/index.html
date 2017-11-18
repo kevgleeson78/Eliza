@@ -18,12 +18,12 @@
     <div class="container col-lg-3">
         <h1 class="head">Talk to Eliza</h1>
  
-        <form>
+        <form id="form-eliza-user-input">
             <div class="form-group">
                 <textarea class="form-control" id="output-area" rows="17" disabled></textarea>
               </div>
             <div class="form-group">
-              <input type="text" class="form-control" id="text" aria-describedby="emailHelp" placeholder="Talk to Eliza">
+              <input type="text" class="form-control" id="input-text" aria-describedby="emailHelp" placeholder="Talk to Eliza">
               <button type="submit" class="btn btn-primary">Submit</button>
             </div>
             
@@ -34,8 +34,22 @@
     
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+   
   </body>
+  <script>
+    //Adapted from https://stackoverflow.com/questions/9372033/how-do-i-pass-parameters-that-is-input-textbox-value-to-ajax-in-jquery
+    $("#form-eliza-user-input").submit(
+      function(event) {
+        event.preventDefault();
+       $.get('/input-text', { value: $('#input-text').val() } )
+          .done(function (data) {
+            var result = $('#output-area').append(data).find('#output-area').html();
+            $('#output-area').html(result)
+           // $('#output-area').val(data);
+          })
+      });
+  </script>
 </html>
