@@ -67,12 +67,21 @@
            // $('#output-area').val(data);
           })
       });
-      // adapted from https://stackoverflow.com/questions/270612/scroll-to-bottom-of-div
-      function updateScroll(){
-    var element = document.getElementById("main-view");
-    element.scrollTop = element.scrollHeight;
+      // adapted from https://stackoverflow.com/questions/15688656/how-to-keep-a-div-scrolled-to-the-bottom-as-html-content-is-appended-to-it-via-j
+      var $cont = $('#main-view');
+      $cont[0].scrollTop = $cont[0].scrollHeight;
+      
+      $('#input-text').keyup(function(e) {
+          if (e.keyCode == 13) {
+             // $cont.append('<p>' + $(this).val() + '</p>');
+              $cont[0].scrollTop = $cont[0].scrollHeight;
+             // $(this).val('');
+          }
+          
+      })
+      .focus();
     
-}
-setInterval(updateScroll,1000);
+
+
   </script>
 </html>
