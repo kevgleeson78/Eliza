@@ -1,23 +1,12 @@
 /*
-*App-Name: Go-guessing-game
+*App-Name: Eliza
 *@Author:  Kevin Gleeson
-*Date:     15/10/2017
+*Date:     18/11/2017
 *Version:  1.0
 *Sources:
-*https://github.com/data-representation/go-echo
-*https://golang.org/pkg/net/http/#SetCookie
-*https://stackoverflow.com/questions/12130582/setting-cookies-in-golang-net-http
-*https://astaxie.gitbooks.io/build-web-application-with-golang/content/en/06.1.html
-*https://astaxie.gitbooks.io/build-web-application-with-golang/en/07.4.html
-*https://stackoverflow.com/questions/22593259/check-if-string-is-int-golang
-*https://stackoverflow.com/questions/28159520/passing-a-query-parameter-to-the-go-http-request-handler-using-the-mux-package
-*https://astaxie.gitbooks.io/build-web-application-with-golang/content/en/06.1.html
-*https://github.com/gowww/client/blob/master/response.go
-*https://godoc.org/hkjn.me/googleauth
-*https://golang.org/pkg/strconv/
-*https://stackoverflow.com/questions/26189523/go-represent-path-without-query-string
-*https://stackoverflow.com/questions/20320549/how-can-you-delete-a-cookie-in-an-http-response
-*https://github.com/github/gitignore/blob/master/Go.gitignore
+*http://api.jquery.com/jquery.ajax/
+*
+*
  */
 
 package main
