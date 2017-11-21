@@ -13,6 +13,7 @@
 *https://gist.github.com/ianmcloughlin/c4c2b8dc586d06943f54b75d9e2250fe
 *https://github.com/data-representation/eliza/blob/master/data/responses.txt
 *https://github.com/codeanticode/eliza/blob/master/data/eliza.script
+*https://www.smallsurething.com/implementing-the-famous-eliza-chatbot-in-python/
  */
 
 package main
@@ -41,7 +42,7 @@ func Reflections(capturedString string) string {
 		{`\bwere\b`, `was`},
 		{`\bwas\b`, `were`},
 		{`\byou\b`, `I`},
-		{`\b(?i)I\b`, `you`},
+		{`\bi\b`, `you`},
 		{`\bme\b`, `you`},
 		{`\byour\b`, ` my`},
 		{`\bmy\b`, `your`},
@@ -99,7 +100,7 @@ func ElizaResponse(str string) string {
 		answers := []string{"Perhaps you could " + reflectString + " if you tried.",
 			"How do you think that you can't " + reflectString + "?",
 			"Have you tried ?",
-			"Perhaps you could " + reflectString + "now.",
+			"Perhaps you could " + reflectString + " now.",
 			"Do you really want to be able to" + reflectString + "?",
 		}
 		//replace and create the new string with the answer and changed nouns.
@@ -107,433 +108,482 @@ func ElizaResponse(str string) string {
 		//return final string to the front end.
 		return response
 	}
-	//Capture and replace I have
-	//The below regular expression was adapted from https://github.com/data-representation/eliza/blob/master/data/responses.txt
-	r1 = regexp.MustCompile(`(?im)^\s*I have ([^\.!]*)[\.!]*\s*$`)
+	r1 = regexp.MustCompile(`I need (.*)`)
 	matched = r1.MatchString(str)
 	if matched {
 		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
-
-		//Only keep the captured part of the string
-		//Pass in everything after the captured part of the statement to the function Reflections
-		response := r1.ReplaceAllString(str, "How long have you "+reflectString+"?")
-		//Concat the new opening line at the end of the function
-		return response
-	}
-	//Capture and replace My name is
-	r1 = regexp.MustCompile(`(?im)^\s*My name is ([^\.!]*)[\.!]*\s*$`)
-	matched = r1.MatchString(str)
-	if matched {
-		//Responses adapated from https://github.com/codeanticode/eliza/blob/master/data/eliza.script
-		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
-		answers := []string{"Hello " + reflectString + " how have you been?",
-			reflectString + " I dont think I recognise that name.",
-			reflectString + " is the same name as my Father.",
-			"Where does " + reflectString + " originate from?",
-		}
+		answers := []string{"Why do you need " + reflectString + "?",
+			"Would it really help you to get " + reflectString + "?",
+			"Are you sure you need " + reflectString + "?"}
 		//Only keep the captured part of the string
 		//Pass in everything after the captured part of the statement to the function Reflections
 		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
 		//Concat the new opening line at the end of the function
 		return response
 	}
-	r1 = regexp.MustCompile(`(?im)^\s*i remember ([^\.!]*)[\.!]*\s*$`)
+	r1 = regexp.MustCompile(`Why don\'?t you ([^\?]*)\??`)
 	matched = r1.MatchString(str)
 	if matched {
 		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
-		answers := []string{" Do you often think of " + reflectString + "?",
-			" Does thinking of " + reflectString + " bring anything else to mind ?",
-			" What else do you recollect ?",
-			" Why do you recollect " + reflectString + " just now ?",
-			" What in the present situation reminds you of " + reflectString + " ?",
-			" What is the connection between me and " + reflectString + "?",
-		}
+		answers := []string{"Do you really think I don't " + reflectString + "?",
+			"Perhaps eventually I will " + reflectString + ".",
+			"Do you really want me to " + reflectString + "?"}
 		//Only keep the captured part of the string
 		//Pass in everything after the captured part of the statement to the function Reflections
 		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
 		//Concat the new opening line at the end of the function
 		return response
 	}
-	r1 = regexp.MustCompile(`(?im)^\s*sorry ([^\.!]*)[\.!]*\s*$`)
-	matched = r1.MatchString(str)
-	if matched {
-		answers := []string{"Please don't apologise.",
-			"Apologies are not necessary.",
-			"I've told you that apologies are not required.",
-		}
-		//Only keep the captured part of the string
-		//Pass in everything after the captured part of the statement to the function Reflections
-		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
-		//Concat the new opening line at the end of the function
-		return response
-	}
-	r1 = regexp.MustCompile(`(?im)^\s*do you remember ([^\.!]*)[\.!]*\s*$`)
-	matched = r1.MatchString(str)
-	if matched {
-		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
-		answers := []string{"Did you think I would forget " + reflectString + "?",
-			"Why do you think I should recall " + reflectString + " now ?",
-			"What about " + reflectString + "?",
-			"You mentioned " + reflectString + "?"}
-		//Only keep the captured part of the string
-		//Pass in everything after the captured part of the statement to the function Reflections
-		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
-		//Concat the new opening line at the end of the function
-		return response
-	}
-	r1 = regexp.MustCompile(`(?im)^\s*if ([^\.!]*)[\.!]*\s*$`)
-	matched = r1.MatchString(str)
-	if matched {
-		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
-		answers := []string{"Do you think its likely that " + reflectString + "?",
-			"Do you wish that " + reflectString + "?",
-			"What do you know about" + reflectString + "?",
-			"Really, if " + reflectString + "?"}
-		//Only keep the captured part of the string
-		//Pass in everything after the captured part of the statement to the function Reflections
-		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
-		//Concat the new opening line at the end of the function
-		return response
-	}
-	r1 = regexp.MustCompile(`(?im)^\s*am i ([^\.!]*)[\.!]*\s*$`)
-	matched = r1.MatchString(str)
-	if matched {
-		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
-		answers := []string{"Do you believe you are " + reflectString + "?",
-			"Would you want to be " + reflectString + "?",
-			"Do you wish I would tell you you are" + reflectString + "?",
-			"What would it mean if you were" + reflectString + "?",
-		}
-		//Only keep the captured part of the string
-		//Pass in everything after the captured part of the statement to the function Reflections
-		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
-		//Concat the new opening line at the end of the function
-		return response
-	}
-
-	r1 = regexp.MustCompile(`(?im)^\s*are you ([^\.!]*)[\.!]*\s*$`)
-	matched = r1.MatchString(str)
-	if matched {
-		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
-		answers := []string{"Why are you interested in whether I am " + reflectString + " or not ?",
-			"Would you prefer if I weren't " + reflectString + "?",
-
-			"Do you sometimes think I am " + reflectString + "?"}
-		//Only keep the captured part of the string
-		//Pass in everything after the captured part of the statement to the function Reflections
-		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
-		//Concat the new opening line at the end of the function
-		return response
-	}
-	r1 = regexp.MustCompile(`(?im)^\s*are ([^\.!]*)[\.!]*\s*$`)
-	matched = r1.MatchString(str)
-	if matched {
-		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
-		answers := []string{"Did you think they might not be " + reflectString + "?",
-			"Would you like it if they were not " + reflectString + "?",
-			"What if they were not " + reflectString + "?",
-			"Possibly they are " + reflectString + "."}
-		//Only keep the captured part of the string
-		//Pass in everything after the captured part of the statement to the function Reflections
-		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
-		//Concat the new opening line at the end of the function
-		return response
-	}
-	r1 = regexp.MustCompile(`(?im)^\s*your ([^\.!]*)[\.!]*\s*$`)
-	matched = r1.MatchString(str)
-	if matched {
-		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
-		answers := []string{"Why are you concerned over my " + reflectString + "?",
-			"What about your own " + reflectString + "?",
-			"Are you worried about someone else's " + reflectString + "?",
-			"Really, my " + reflectString + "?"}
-		//Only keep the captured part of the string
-		//Pass in everything after the captured part of the statement to the function Reflections
-		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
-		//Concat the new opening line at the end of the function
-		return response
-	}
-	r1 = regexp.MustCompile(`(?im)^\s*was i ([^\.!]*)[\.!]*\s*$`)
-	matched = r1.MatchString(str)
-	if matched {
-		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
-		answers := []string{"What if you were " + reflectString + "?",
-			"Do you think you were " + reflectString + "?",
-			"Were you " + reflectString + "?",
-			"What would it mean if you were " + reflectString + "?",
-			"What does " + reflectString + " suggest to you ?"}
-		//Only keep the captured part of the string
-		//Pass in everything after the captured part of the statement to the function Reflections
-		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
-		//Concat the new opening line at the end of the function
-		return response
-	}
-	r1 = regexp.MustCompile(`(?im)^\s*i was ([^\.!]*)[\.!]*\s*$`)
-	matched = r1.MatchString(str)
-	if matched {
-		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
-		answers := []string{"Were you really ?",
-			"Why do you tell me you were " + reflectString + " now ?",
-			"Perhaps I already know you were" + reflectString + "."}
-		//Only keep the captured part of the string
-		//Pass in everything after the captured part of the statement to the function Reflections
-		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
-		//Concat the new opening line at the end of the function
-		return response
-	}
-	r1 = regexp.MustCompile(`(?im)^\s*were you ([^\.!]*)[\.!]*\s*$`)
-	matched = r1.MatchString(str)
-	if matched {
-		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
-		answers := []string{"Would you like to believe I was " + reflectString + "?",
-			"What suggests that I was " + reflectString + "?",
-			"What do you think ?",
-			"Perhaps I was " + reflectString + ".",
-			"What if I had been " + reflectString + "?"}
-		//Only keep the captured part of the string
-		//Pass in everything after the captured part of the statement to the function Reflections
-		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
-		//Concat the new opening line at the end of the function
-		return response
-	}
-	r1 = regexp.MustCompile(`(?im)^\s*i am sad ([^\.!]*)[\.!]*\s*$`)
-	matched = r1.MatchString(str)
-	if matched {
-		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
-		answers := []string{"I am sorry to hear that you are " + reflectString + ".",
-			"Do you think that coming here will help you not to be " + reflectString + "?",
-			"I'm sure it's not pleasant to be " + reflectString + ".",
-			"Can you explain what made you " + reflectString + "?"}
-		//Only keep the captured part of the string
-		//Pass in everything after the captured part of the statement to the function Reflections
-		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
-		//Concat the new opening line at the end of the function
-		return response
-	}
-	r1 = regexp.MustCompile(`(?im)^\s*i want ([^\.!]*)[\.!]*\s*$`)
-	matched = r1.MatchString(str)
-	if matched {
-		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
-		answers := []string{"What would it mean to you if you got " + reflectString + "?",
-			"Why do you want " + reflectString + "?",
-			"Suppose you got " + reflectString + " soon ?",
-			"What if you never got " + reflectString + "?",
-			"What would getting " + reflectString + " mean to you ?",
-			"What does wanting" + reflectString + "have to do with this discussion ?"}
-		//Only keep the captured part of the string
-		//Pass in everything after the captured part of the statement to the function Reflections
-		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
-		//Concat the new opening line at the end of the function
-		return response
-	}
-	r1 = regexp.MustCompile(`(?im)^\si am happy ([^\.!]*)[\.!]*\s*$`)
-	matched = r1.MatchString(str)
-	if matched {
-		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
-		answers := []string{"How have I helped you to be" + reflectString + "?",
-			"Has your treatment made you " + reflectString + "?",
-			"What makes you " + reflectString + " just now ?",
-			"Can you explan why you are suddenly " + reflectString + "?"}
-		//Only keep the captured part of the string
-		//Pass in everything after the captured part of the statement to the function Reflections
-		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
-		//Concat the new opening line at the end of the function
-		return response
-	}
-	r1 = regexp.MustCompile(`(?im)^\s*i believe ([^\.!]*)[\.!]*\s*$`)
-	matched = r1.MatchString(str)
-	if matched {
-		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
-		answers := []string{"Do you really think so ?",
-			"But you are not sure you " + reflectString + ".",
-			"Do you really doubt you " + reflectString + "?"}
-		//Only keep the captured part of the string
-		//Pass in everything after the captured part of the statement to the function Reflections
-		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
-		//Concat the new opening line at the end of the function
-		return response
-	}
-	r1 = regexp.MustCompile(`(?im)^\s*i am ([^\.!]*)[\.!]*\s*$`)
-	matched = r1.MatchString(str)
-	if matched {
-		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
-		answers := []string{"Is it because you are " + reflectString + "that you came to me ?",
-			"How long have you been " + reflectString + "?",
-			"Do you believe it is normal to be " + reflectString + "?",
-			"Do you enjoy being " + reflectString + "?"}
-		//Only keep the captured part of the string
-		//Pass in everything after the captured part of the statement to the function Reflections
-		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
-		//Concat the new opening line at the end of the function
-		return response
-	}
-	r1 = regexp.MustCompile(`(?im)^\s*i don't ([^\.!]*)[\.!]*\s*$`)
-	matched = r1.MatchString(str)
-	if matched {
-		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
-		answers := []string{"Don't you really " + reflectString + "?",
-			"Why don't you " + reflectString + "?",
-			"Do you wish to be able to" + reflectString + "?",
-			"Does that trouble you ?"}
-		//Only keep the captured part of the string
-		//Pass in everything after the captured part of the statement to the function Reflections
-		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
-		//Concat the new opening line at the end of the function
-		return response
-	}
-	r1 = regexp.MustCompile(`(?im)^\s*i feel ([^\.!]*)[\.!]*\s*$`)
-	matched = r1.MatchString(str)
-	if matched {
-		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
-		answers := []string{"Tell me more about such feelings.",
-			"Do you often feel " + reflectString + "?",
-			"Do you enjoy feeling " + reflectString + "?",
-			"Of what does feeling " + reflectString + " remind you ?"}
-		//Only keep the captured part of the string
-		//Pass in everything after the captured part of the statement to the function Reflections
-		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
-		//Concat the new opening line at the end of the function
-		return response
-	}
-	r1 = regexp.MustCompile(`(?im)^\s*you are([^\.!]*)[\.!]*\s*$`)
-	matched = r1.MatchString(str)
-	if matched {
-		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
-		answers := []string{"What makes you think I am " + reflectString + "?",
-			"Does it please you to believe I am " + reflectString + "?",
-			"Do you sometimes wish you were " + reflectString + "?",
-			"Perhaps you would like to be " + reflectString + "."}
-		//Only keep the captured part of the string
-		//Pass in everything after the captured part of the statement to the function Reflections
-		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
-		//Concat the new opening line at the end of the function
-		return response
-	}
-	r1 = regexp.MustCompile(`(?im)^\s*yes([^\.!]*)[\.!]*\s*$`)
-	matched = r1.MatchString(str)
-	if matched {
-
-		answers := []string{"You seem to be quite positive.",
-			"You are sure.",
-			"I see.",
-			"I understand."}
-		//Only keep the captured part of the string
-		//Pass in everything after the captured part of the statement to the function Reflections
-		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
-		//Concat the new opening line at the end of the function
-		return response
-	}
-	r1 = regexp.MustCompile(`(?im)^\s*no([^\.!]*)[\.!]*\s*$`)
-	matched = r1.MatchString(str)
-	if matched {
-
-		answers := []string{"Are you saying no just to be negative?",
-			"You are being a bit negative.",
-			"Why not ?",
-			"Why 'no' ?"}
-		//Only keep the captured part of the string
-		//Pass in everything after the captured part of the statement to the function Reflections
-		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
-		//Concat the new opening line at the end of the function
-		return response
-	}
-	r1 = regexp.MustCompile(`(?im)^\s*my([^\.!]*)[\.!]*\s*$`)
+	r1 = regexp.MustCompile(`Why can\'?t I ([^\?]*)\??`)
 	matched = r1.MatchString(str)
 	if matched {
 		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
 		answers := []string{
-			"Your " + reflectString + "?",
-			"What else comes to mind when you think of your" + reflectString + "?",
-			"Why do you say your " + reflectString + "?",
-			"Does that suggest anything else which belongs to you ?",
-			"Is it important that your " + reflectString + "?"}
+			"Do you think you should be able to " + reflectString + "?",
+			"If you could " + reflectString + ", what would you do?",
+			"I don't know -- why can't you " + reflectString + "?",
+			"Have you really tried?"}
 		//Only keep the captured part of the string
 		//Pass in everything after the captured part of the statement to the function Reflections
 		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
 		//Concat the new opening line at the end of the function
 		return response
 	}
-	r1 = regexp.MustCompile(`(?im)^\s*can you([^\.!]*)[\.!]*\s*$`)
+	r1 = regexp.MustCompile(`^I am (.*)`)
 	matched = r1.MatchString(str)
 	if matched {
 		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
-		answers := []string{"You believe I can " + reflectString + "don't you ?",
-			"You want me to be able to " + reflectString + ".",
-			"Perhaps you would like to be able to " + reflectString + "yourself."}
+		answers := []string{
+			"Did you come to me because you are " + reflectString + "?",
+			"How long have you been " + reflectString + "?",
+			"How do you feel about being " + reflectString + "?"}
 		//Only keep the captured part of the string
 		//Pass in everything after the captured part of the statement to the function Reflections
 		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
 		//Concat the new opening line at the end of the function
 		return response
 	}
-	r1 = regexp.MustCompile(`(?im)^\s*can i([^\.!]*)[\.!]*\s*$`)
+	r1 = regexp.MustCompile(`Are you ([^\?]*)\??`)
 	matched = r1.MatchString(str)
 	if matched {
 		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
-		answers := []string{"Whether or not you can " + reflectString + " depends on you more than me.",
-			"Do you want to be able to " + reflectString + "?",
-			"Perhaps you don't want to " + reflectString + "."}
+		answers := []string{
+			"Why does it matter whether I am " + reflectString + "?",
+			"Would you prefer it if I were not " + reflectString + "?",
+			"Perhaps you believe I am " + reflectString + ".",
+			"I may be " + reflectString + " -- what do you think?"}
 		//Only keep the captured part of the string
 		//Pass in everything after the captured part of the statement to the function Reflections
 		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
 		//Concat the new opening line at the end of the function
 		return response
 	}
-	r1 = regexp.MustCompile(`(?im)^\s*what([^\.!]*)[\.!]*\s*$`)
+	r1 = regexp.MustCompile(`What (.*)`)
 	matched = r1.MatchString(str)
 	if matched {
 
-		answers := []string{"Why do you ask ?",
-			"Does that question interest you ?",
-			"What is it you really wanted to know ?",
-			"Are such questions much on your mind ?",
-			"What answer would please you most ?",
-			"What do you think ?",
-			"What comes to mind when you ask that ?",
-			"Have you asked such questions before ?",
-			"Have you asked anyone else ?"}
+		answers := []string{
+			"Why do you ask?",
+			"How would an answer to that help you?",
+			"What do you think?",
+		}
 		//Only keep the captured part of the string
 		//Pass in everything after the captured part of the statement to the function Reflections
 		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
 		//Concat the new opening line at the end of the function
 		return response
 	}
-	r1 = regexp.MustCompile(`(?im)^\s*because([^\.!]*)[\.!]*\s*$`)
+	r1 = regexp.MustCompile(`How (.*)`)
 	matched = r1.MatchString(str)
 	if matched {
 
-		answers := []string{"Is that the real reason ?",
-			"Don't any other reasons come to mind ?",
-			"Does that reason seem to explain anything else ?",
-			"What other reasons might there be ?"}
+		answers := []string{"How do you suppose?",
+			"Perhaps you can answer your own question.",
+			"What is it you're really asking?",
+		}
 		//Only keep the captured part of the string
 		//Pass in everything after the captured part of the statement to the function Reflections
 		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
 		//Concat the new opening line at the end of the function
 		return response
 	}
-	r1 = regexp.MustCompile(`(?im)^\s*why don't you([^\.!]*)[\.!]*\s*$`)
+	r1 = regexp.MustCompile(`Because (.*)`)
 	matched = r1.MatchString(str)
 	if matched {
 		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
-		answers := []string{"Do you believe I don't " + reflectString + "?",
-			"Perhaps I will " + reflectString + " in good time.",
-			"Should you " + reflectString + " yourself ?",
-			"You want me to " + reflectString + "?"}
+		answers := []string{
+			"Is that the real reason?",
+			"What other reasons come to mind?",
+			"Does that reason apply to anything else?",
+			"If " + reflectString + ", what else must be true?",
+		}
 		//Only keep the captured part of the string
 		//Pass in everything after the captured part of the statement to the function Reflections
 		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
 		//Concat the new opening line at the end of the function
 		return response
 	}
-	r1 = regexp.MustCompile(`(?im)^\s*why can't i([^\.!]*)[\.!]*\s*$`)
+	r1 = regexp.MustCompile(`Hello(.*)`)
+	matched = r1.MatchString(str)
+	if matched {
+
+		answers := []string{
+			"Hello... I'm glad you could drop by today.",
+			"Hi there... how are you today?",
+			"Hello, how are you feeling today?",
+		}
+		//Only keep the captured part of the string
+		//Pass in everything after the captured part of the statement to the function Reflections
+		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
+		//Concat the new opening line at the end of the function
+		return response
+	}
+	r1 = regexp.MustCompile(`I think (.*)`)
 	matched = r1.MatchString(str)
 	if matched {
 		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
-		answers := []string{"Do you think you should be able to " + reflectString + "?",
+		answers := []string{
+			"Do you doubt " + reflectString + "?",
+			"Do you really think so?",
+			"But you're not sure " + reflectString + "?",
+		}
+		//Only keep the captured part of the string
+		//Pass in everything after the captured part of the statement to the function Reflections
+		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
+		//Concat the new opening line at the end of the function
+		return response
+	}
+	r1 = regexp.MustCompile(`(.*) friend (.*)`)
+	matched = r1.MatchString(str)
+	if matched {
+
+		answers := []string{
+			"Tell me more about your friends.",
+			"When you think of a friend, what comes to mind?",
+			"Why don't you tell me about a childhood friend?",
+		}
+		//Only keep the captured part of the string
+		//Pass in everything after the captured part of the statement to the function Reflections
+		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
+		//Concat the new opening line at the end of the function
+		return response
+	}
+	r1 = regexp.MustCompile(`Yes`)
+	matched = r1.MatchString(str)
+	if matched {
+
+		answers := []string{
+			"You seem quite sure.",
+			"OK, but can you elaborate a bit?",
+		}
+		//Only keep the captured part of the string
+		//Pass in everything after the captured part of the statement to the function Reflections
+		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
+		//Concat the new opening line at the end of the function
+		return response
+	}
+	r1 = regexp.MustCompile(`(.*) sorry (.*)`)
+	matched = r1.MatchString(str)
+	if matched {
+
+		answers := []string{"There are many times when no apology is needed.",
+			"What feelings do you have when you apologize?",
+		}
+		//Only keep the captured part of the string
+		//Pass in everything after the captured part of the statement to the function Reflections
+		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
+		//Concat the new opening line at the end of the function
+		return response
+	}
+	r1 = regexp.MustCompile(`(.*) computer(.*)`)
+	matched = r1.MatchString(str)
+	if matched {
+
+		answers := []string{
+			"Are you really talking about me?",
+			"Does it seem strange to talk to a computer?",
+			"How do computers make you feel?",
+			"Do you feel threatened by computers?",
+		}
+		//Only keep the captured part of the string
+		//Pass in everything after the captured part of the statement to the function Reflections
+		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
+		//Concat the new opening line at the end of the function
+		return response
+	}
+	r1 = regexp.MustCompile(`Is it (.*)`)
+	matched = r1.MatchString(str)
+	if matched {
+		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
+		answers := []string{
+			"Do you think it is " + reflectString + "?",
+			"Perhaps it's " + reflectString + " -- what do you think?",
+			"If it were " + reflectString + ", what would you do?",
+			"It could well be that " + reflectString + ".",
+		}
+		//Only keep the captured part of the string
+		//Pass in everything after the captured part of the statement to the function Reflections
+		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
+		//Concat the new opening line at the end of the function
+		return response
+	}
+	r1 = regexp.MustCompile(`It is (.*)`)
+	matched = r1.MatchString(str)
+	if matched {
+		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
+		answers := []string{
+			"You seem very certain.",
+			"If I told you that it probably isn't " + reflectString + ", what would you feel?",
+		}
+		//Only keep the captured part of the string
+		//Pass in everything after the captured part of the statement to the function Reflections
+		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
+		//Concat the new opening line at the end of the function
+		return response
+	}
+	r1 = regexp.MustCompile(`Can you ([^\?]*)\??`)
+	matched = r1.MatchString(str)
+	if matched {
+		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
+		answers := []string{
+			"What makes you think I can't " + reflectString + "?",
+			"If I could " + reflectString + ", then what?",
+			"Why do you ask if I can " + reflectString + "?",
+		}
+		//Only keep the captured part of the string
+		//Pass in everything after the captured part of the statement to the function Reflections
+		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
+		//Concat the new opening line at the end of the function
+		return response
+	}
+	r1 = regexp.MustCompile(`Can I ([^\?]*)\??`)
+	matched = r1.MatchString(str)
+	if matched {
+		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
+		answers := []string{
+			"Perhaps you don't want to " + reflectString + ".",
 			"Do you want to be able to " + reflectString + "?",
-			"Do you believe this will help you to " + reflectString + "?",
-			"Have you any idea why you can't " + reflectString + "?"}
+			"If you could " + reflectString + ", would you?",
+		}
+		//Only keep the captured part of the string
+		//Pass in everything after the captured part of the statement to the function Reflections
+		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
+		//Concat the new opening line at the end of the function
+		return response
+	}
+	r1 = regexp.MustCompile(`You are (.*)`)
+	matched = r1.MatchString(str)
+	if matched {
+		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
+		answers := []string{
+			"Why do you think I am " + reflectString + "?",
+			"Does it please you to think that I'm " + reflectString + "?",
+			"Perhaps you would like me to be " + reflectString + ".",
+			"Perhaps you're really talking about yourself?",
+		}
+		//Only keep the captured part of the string
+		//Pass in everything after the captured part of the statement to the function Reflections
+		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
+		//Concat the new opening line at the end of the function
+		return response
+	}
+	r1 = regexp.MustCompile(`You\'?re (.*)`)
+	matched = r1.MatchString(str)
+	if matched {
+		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
+		answers := []string{
+			"Why do you say I am " + reflectString + "?",
+			"Why do you think I am " + reflectString + "?",
+			"Are we talking about you, or me?",
+		}
+		//Only keep the captured part of the string
+		//Pass in everything after the captured part of the statement to the function Reflections
+		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
+		//Concat the new opening line at the end of the function
+		return response
+	}
+	r1 = regexp.MustCompile(`I don\'?t (.*)`)
+	matched = r1.MatchString(str)
+	if matched {
+		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
+		answers := []string{
+			"Don't you really " + reflectString + "?",
+			"Why don't you " + reflectString + "?",
+			"Do you want to " + reflectString + "?",
+		}
+		//Only keep the captured part of the string
+		//Pass in everything after the captured part of the statement to the function Reflections
+		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
+		//Concat the new opening line at the end of the function
+		return response
+	}
+	r1 = regexp.MustCompile(`I feel (.*)`)
+	matched = r1.MatchString(str)
+	if matched {
+		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
+		answers := []string{
+			"Good, tell me more about these feelings.",
+			"Do you often feel " + reflectString + "?",
+			"When do you usually feel " + reflectString + "?",
+			"When you feel " + reflectString + ", what do you do?",
+		}
+		//Only keep the captured part of the string
+		//Pass in everything after the captured part of the statement to the function Reflections
+		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
+		//Concat the new opening line at the end of the function
+		return response
+	}
+	r1 = regexp.MustCompile(`I have (.*)`)
+	matched = r1.MatchString(str)
+	if matched {
+		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
+		answers := []string{
+			"Why do you tell me that you've " + reflectString + "?",
+			"Have you really " + reflectString + "?",
+			"Now that you have " + reflectString + ", what will you do next?",
+		}
+		//Only keep the captured part of the string
+		//Pass in everything after the captured part of the statement to the function Reflections
+		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
+		//Concat the new opening line at the end of the function
+		return response
+	}
+	r1 = regexp.MustCompile(`I would (.*)`)
+	matched = r1.MatchString(str)
+	if matched {
+		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
+		answers := []string{
+			"Could you explain why you would " + reflectString + "?",
+			"Why would you " + reflectString + "?",
+			"Who else knows that you would " + reflectString + "?",
+		}
+		//Only keep the captured part of the string
+		//Pass in everything after the captured part of the statement to the function Reflections
+		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
+		//Concat the new opening line at the end of the function
+		return response
+	}
+	r1 = regexp.MustCompile(`Is there (.*)`)
+	matched = r1.MatchString(str)
+	if matched {
+		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
+		answers := []string{
+			"Do you think there is " + reflectString + "?",
+			"It's likely that there is " + reflectString + ".",
+			"Would you like there to be " + reflectString + "?",
+		}
+		//Only keep the captured part of the string
+		//Pass in everything after the captured part of the statement to the function Reflections
+		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
+		//Concat the new opening line at the end of the function
+		return response
+	}
+	r1 = regexp.MustCompile(`My (.*)`)
+	matched = r1.MatchString(str)
+	if matched {
+		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
+		answers := []string{
+			"I see, your " + reflectString + ".",
+			"Why do you say that your " + reflectString + "?",
+			"When your " + reflectString + ", how do you feel?",
+		}
+		//Only keep the captured part of the string
+		//Pass in everything after the captured part of the statement to the function Reflections
+		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
+		//Concat the new opening line at the end of the function
+		return response
+	}
+	r1 = regexp.MustCompile(`You (.*)`)
+	matched = r1.MatchString(str)
+	if matched {
+		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
+		answers := []string{
+			"We should be discussing you, not me.",
+			"Why do you say that about me?",
+			"Why do you care whether I " + reflectString + "?",
+		}
+		//Only keep the captured part of the string
+		//Pass in everything after the captured part of the statement to the function Reflections
+		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
+		//Concat the new opening line at the end of the function
+		return response
+	}
+	r1 = regexp.MustCompile(`Why (.*)`)
+	matched = r1.MatchString(str)
+	if matched {
+		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
+		answers := []string{
+			"Why don't you tell me the reason why " + reflectString + "?",
+			"Why do you think " + reflectString + "?",
+		}
+		//Only keep the captured part of the string
+		//Pass in everything after the captured part of the statement to the function Reflections
+		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
+		//Concat the new opening line at the end of the function
+		return response
+	}
+	r1 = regexp.MustCompile(`I want (.*)`)
+	matched = r1.MatchString(str)
+	if matched {
+		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
+		answers := []string{
+			"What would it mean to you if you got " + reflectString + "?",
+			"Why do you want " + reflectString + "?",
+			"What would you do if you got " + reflectString + "?",
+			"If you got " + reflectString + ", then what would you do?",
+		}
+		//Only keep the captured part of the string
+		//Pass in everything after the captured part of the statement to the function Reflections
+		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
+		//Concat the new opening line at the end of the function
+		return response
+	}
+	r1 = regexp.MustCompile(`(.*) mother(.*)`)
+	matched = r1.MatchString(str)
+	if matched {
+
+		answers := []string{
+			"Tell me more about your mother.",
+			"What was your relationship with your mother like?",
+			"How do you feel about your mother?",
+			"How does this relate to your feelings today?",
+			"Good family relations are important.",
+		}
+		//Only keep the captured part of the string
+		//Pass in everything after the captured part of the statement to the function Reflections
+		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
+		//Concat the new opening line at the end of the function
+		return response
+	}
+	r1 = regexp.MustCompile(`(.*) father(.*)`)
+	matched = r1.MatchString(str)
+	if matched {
+
+		answers := []string{
+			"Tell me more about your father.",
+			"How did your father make you feel?",
+			"How do you feel about your father?",
+			"Does your relationship with your father relate to your feelings today?",
+			"Do you have trouble showing affection with your family?",
+		}
+		//Only keep the captured part of the string
+		//Pass in everything after the captured part of the statement to the function Reflections
+		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
+		//Concat the new opening line at the end of the function
+		return response
+	}
+
+	r1 = regexp.MustCompile(`(.*) child(.*)`)
+	matched = r1.MatchString(str)
+	if matched {
+
+		answers := []string{
+			"Did you have close friends as a child?",
+			"What is your favorite childhood memory?",
+			"Do you remember any dreams or nightmares from childhood?",
+			"Did the other children sometimes tease you?",
+			"How do you think your childhood experiences relate to your feelings today?",
+		}
 		//Only keep the captured part of the string
 		//Pass in everything after the captured part of the statement to the function Reflections
 		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
