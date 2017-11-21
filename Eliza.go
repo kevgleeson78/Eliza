@@ -14,6 +14,8 @@
 *https://github.com/data-representation/eliza/blob/master/data/responses.txt
 *https://github.com/codeanticode/eliza/blob/master/data/eliza.script
 *https://www.smallsurething.com/implementing-the-famous-eliza-chatbot-in-python/
+*https://stackoverflow.com/questions/37274282/regex-with-replace-in-golang
+*https://regexone.com/lesson/letters_and_digits?
  */
 
 package main

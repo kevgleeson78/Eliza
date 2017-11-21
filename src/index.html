@@ -1,3 +1,4 @@
+<!-- Adapted from https://startbootstrap.com/template-overviews/bare/ -->
 <!doctype html>
 <html lang="en">
   <head>
@@ -18,7 +19,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
   </head>
   <body>
-    <div class="container col-lg-3">
+    <div class="container col-lg-5">
         <h1 class="head">Talk to Eliza</h1>
  
         <form id="form-eliza-user-input">
@@ -49,30 +50,41 @@
    
   </body>
   <script>
-    
+    //function to kepp the messages at the bottom of the scroll screen
+    //adapted from https://stackoverflow.com/questions/18614301/keep-overflow-div-scrolled-to-bottom-unless-user-scrolls-up
+    function updateScroll(){
+    var element = document.getElementById("main-view");
+    element.scrollTop = element.scrollHeight;
+}
     //Adapted from https://stackoverflow.com/questions/9372033/how-do-i-pass-parameters-that-is-input-textbox-value-to-ajax-in-jquery
     $("#form-eliza-user-input").submit(
       //On submit event
       function(event) {
         //Prevent the default behaviour from happening (Post/GET)
         event.preventDefault();
+        
         //Get the element by ID and take whatever value is inside
        $.get('/input-text', { value: $('#input-text').val() } )
-          .done(function (data) {
-            
+          .done(function (data) {              
             //Adapted from https://stackoverflow.com/questions/12430907/create-div-using-form-data-with-ajax-jquery
             //add the data (what was typed into the text box) to the textarea ID = output-area
             //and store it in result variable
             $('#main-view').append('<div class="response" id="output-area"><p>'+$('#input-text').val()+'</p></div>').html();
             //Dynamically create divs from an ajax response and user input from the text area.
             //These can then be styled and positioned with floats.
-            $('#main-view').append('<div class="eliza-response" id="eliza-output-area"><p>'+(data)+'</p></div>').html();
-            //clear the textbox after submit
-            $('input[type="text"]').val('');
-            
-          })
+            //update scroll function to keep the conversation baoxes at the bottom of the screen.
+            updateScroll();
+            //setTimeout used to delay the ajax response to create the illusion of eliza typing
+            setTimeout(function() {
+              $('#main-view').append('<div class="eliza-response" id="eliza-output-area"><p>'+(data)+'</p></div>').html();
+                //clear the textbox after submit
+                $('input[type="text"]').val('');
+                //call update scroll function
+                updateScroll();
+            }, 2000);
+          })  
           
       });
-     
+      
   </script>
 </html>
