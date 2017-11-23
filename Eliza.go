@@ -16,6 +16,8 @@
 *https://www.smallsurething.com/implementing-the-famous-eliza-chatbot-in-python/
 *https://stackoverflow.com/questions/37274282/regex-with-replace-in-golang
 *https://regexone.com/lesson/letters_and_digits?
+*https://stackoverflow.com/questions/3012788/how-to-check-if-a-line-is-blank-using-regex
+*
  */
 
 package main
@@ -36,8 +38,9 @@ func Reflections(capturedString string) string {
 	boundaries := regexp.MustCompile(`(\b[^\w']|$)`)
 	tokens := boundaries.Split(capturedString, -1)
 
-	// List the reflections.
+	// List of the reflections in 2d array.
 	reflections := [][]string{
+		{`\byou're\b`, `I'm`},
 		{`\b(?i)I'm\b`, `you're`},
 		{`\bare\b`, `am`},
 		{`\bam\b`, `are`},
@@ -50,8 +53,6 @@ func Reflections(capturedString string) string {
 		{`\bmy\b`, `your`},
 		{`\byou've\b`, `I've`},
 		{`\bI've\b`, `you've`},
-
-		{`\byou're\b`, `I'm`},
 		{`\bme\b`, `you`},
 		{`\byou\b`, `me`},
 	}
@@ -97,7 +98,7 @@ func ElizaResponse(str string) string {
 		*This then gets passed to the reflections function to change nouns.
 		 */
 		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
-		//Test output of string commimg out of Reflections
+		//Test output of string from Reflections
 		//fmt.Println(reflectString)
 		answers := []string{"Perhaps you could " + reflectString + " if you tried.",
 			"How do you think that you can't " + reflectString + "?",
@@ -110,7 +111,7 @@ func ElizaResponse(str string) string {
 		//return final string to the front end.
 		return response
 	}
-	r1 = regexp.MustCompile(`I need (.*)`)
+	r1 = regexp.MustCompile(`(?im)^\s*I need ([^\.!]*)[\.!]*\s*$`)
 	matched = r1.MatchString(str)
 	if matched {
 		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
@@ -127,9 +128,24 @@ func ElizaResponse(str string) string {
 	matched = r1.MatchString(str)
 	if matched {
 		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
-		answers := []string{"Do you really think I don't " + reflectString + "?",
+		answers := []string{
+			"Do you really think I don't " + reflectString + "?",
 			"Perhaps eventually I will " + reflectString + ".",
 			"Do you really want me to " + reflectString + "?"}
+		//Only keep the captured part of the string
+		//Pass in everything after the captured part of the statement to the function Reflections
+		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
+		//Concat the new opening line at the end of the function
+		return response
+	}
+	r1 = regexp.MustCompile(`(?im)^\s*my name is ([^\.!]*)[\.!]*\s*$`)
+	matched = r1.MatchString(str)
+	if matched {
+		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
+		answers := []string{
+			"HEllo " + reflectString + " how are you today?",
+			"Perhaps eventually I will get to know you better " + reflectString + ".",
+			"Do you like your name " + reflectString + "?"}
 		//Only keep the captured part of the string
 		//Pass in everything after the captured part of the statement to the function Reflections
 		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
@@ -151,7 +167,7 @@ func ElizaResponse(str string) string {
 		//Concat the new opening line at the end of the function
 		return response
 	}
-	r1 = regexp.MustCompile(`^I am (.*)`)
+	r1 = regexp.MustCompile(`(?im)^\s*I'?\s*a?m ([^\.!]*)[\.!]*\s*$`)
 	matched = r1.MatchString(str)
 	if matched {
 		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
@@ -165,7 +181,8 @@ func ElizaResponse(str string) string {
 		//Concat the new opening line at the end of the function
 		return response
 	}
-	r1 = regexp.MustCompile(`Are you ([^\?]*)\??`)
+
+	r1 = regexp.MustCompile(`(?im)^\s*Are you ([^\.!]*)[\.!]*\s*$`)
 	matched = r1.MatchString(str)
 	if matched {
 		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
@@ -180,7 +197,7 @@ func ElizaResponse(str string) string {
 		//Concat the new opening line at the end of the function
 		return response
 	}
-	r1 = regexp.MustCompile(`What (.*)`)
+	r1 = regexp.MustCompile(`(?im)^\s*What ([^\.!]*)[\.!]*\s*$`)
 	matched = r1.MatchString(str)
 	if matched {
 
@@ -195,7 +212,7 @@ func ElizaResponse(str string) string {
 		//Concat the new opening line at the end of the function
 		return response
 	}
-	r1 = regexp.MustCompile(`How (.*)`)
+	r1 = regexp.MustCompile(`(?im)^\s*How ([^\.!]*)[\.!]*\s*$`)
 	matched = r1.MatchString(str)
 	if matched {
 
@@ -209,7 +226,7 @@ func ElizaResponse(str string) string {
 		//Concat the new opening line at the end of the function
 		return response
 	}
-	r1 = regexp.MustCompile(`Because (.*)`)
+	r1 = regexp.MustCompile(`(?im)^\s*Because ([^\.!]*)[\.!]*\s*$`)
 	matched = r1.MatchString(str)
 	if matched {
 		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
@@ -225,7 +242,7 @@ func ElizaResponse(str string) string {
 		//Concat the new opening line at the end of the function
 		return response
 	}
-	r1 = regexp.MustCompile(`Hello(.*)`)
+	r1 = regexp.MustCompile(`(?im)^\s*Hello ([^\.!]*)[\.!]*\s*$`)
 	matched = r1.MatchString(str)
 	if matched {
 
@@ -240,7 +257,7 @@ func ElizaResponse(str string) string {
 		//Concat the new opening line at the end of the function
 		return response
 	}
-	r1 = regexp.MustCompile(`I think (.*)`)
+	r1 = regexp.MustCompile(`(?im)^\s*I think ([^\.!]*)[\.!]*\s*$`)
 	matched = r1.MatchString(str)
 	if matched {
 		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
@@ -270,13 +287,28 @@ func ElizaResponse(str string) string {
 		//Concat the new opening line at the end of the function
 		return response
 	}
-	r1 = regexp.MustCompile(`Yes`)
+	r1 = regexp.MustCompile(`(?i)Yes`)
 	matched = r1.MatchString(str)
 	if matched {
 
 		answers := []string{
 			"You seem quite sure.",
 			"OK, but can you elaborate a bit?",
+		}
+		//Only keep the captured part of the string
+		//Pass in everything after the captured part of the statement to the function Reflections
+		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
+		//Concat the new opening line at the end of the function
+		return response
+	}
+	r1 = regexp.MustCompile(`(?i)No`)
+	matched = r1.MatchString(str)
+	if matched {
+
+		answers := []string{
+			"Why do you answer no?",
+			"OK, but can you elaborate a bit?",
+			"Do you consider that a negitave thought?",
 		}
 		//Only keep the captured part of the string
 		//Pass in everything after the captured part of the statement to the function Reflections
@@ -313,7 +345,7 @@ func ElizaResponse(str string) string {
 		//Concat the new opening line at the end of the function
 		return response
 	}
-	r1 = regexp.MustCompile(`Is it (.*)`)
+	r1 = regexp.MustCompile(`(?im)^\s*Is it ([^\.!]*)[\.!]*\s*$`)
 	matched = r1.MatchString(str)
 	if matched {
 		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
@@ -329,7 +361,7 @@ func ElizaResponse(str string) string {
 		//Concat the new opening line at the end of the function
 		return response
 	}
-	r1 = regexp.MustCompile(`It is (.*)`)
+	r1 = regexp.MustCompile(`(?im)^\s*It is ([^\.!]*)[\.!]*\s*$`)
 	matched = r1.MatchString(str)
 	if matched {
 		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
@@ -343,7 +375,7 @@ func ElizaResponse(str string) string {
 		//Concat the new opening line at the end of the function
 		return response
 	}
-	r1 = regexp.MustCompile(`Can you ([^\?]*)\??`)
+	r1 = regexp.MustCompile(`(?im)^\s*Can you ([^\.!]*)[\.!]*\s*$`)
 	matched = r1.MatchString(str)
 	if matched {
 		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
@@ -358,7 +390,7 @@ func ElizaResponse(str string) string {
 		//Concat the new opening line at the end of the function
 		return response
 	}
-	r1 = regexp.MustCompile(`Can I ([^\?]*)\??`)
+	r1 = regexp.MustCompile(`(?im)^\s*Can I ([^\.!]*)[\.!]*\s*$`)
 	matched = r1.MatchString(str)
 	if matched {
 		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
@@ -373,7 +405,7 @@ func ElizaResponse(str string) string {
 		//Concat the new opening line at the end of the function
 		return response
 	}
-	r1 = regexp.MustCompile(`You are (.*)`)
+	r1 = regexp.MustCompile(`(?im)^\s*You are ([^\.!]*)[\.!]*\s*$`)
 	matched = r1.MatchString(str)
 	if matched {
 		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
@@ -389,7 +421,7 @@ func ElizaResponse(str string) string {
 		//Concat the new opening line at the end of the function
 		return response
 	}
-	r1 = regexp.MustCompile(`You\'?re (.*)`)
+	r1 = regexp.MustCompile(`(?im)^\s*You'?\s*re ([^\.!]*)[\.!]*\s*$`)
 	matched = r1.MatchString(str)
 	if matched {
 		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
@@ -404,7 +436,7 @@ func ElizaResponse(str string) string {
 		//Concat the new opening line at the end of the function
 		return response
 	}
-	r1 = regexp.MustCompile(`I don\'?t (.*)`)
+	r1 = regexp.MustCompile(`(?im)^\s*I don'?\s*t ([^\.!]*)[\.!]*\s*$`)
 	matched = r1.MatchString(str)
 	if matched {
 		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
@@ -419,7 +451,7 @@ func ElizaResponse(str string) string {
 		//Concat the new opening line at the end of the function
 		return response
 	}
-	r1 = regexp.MustCompile(`I feel (.*)`)
+	r1 = regexp.MustCompile(`(?im)^\s*I feel ([^\.!]*)[\.!]*\s*$`)
 	matched = r1.MatchString(str)
 	if matched {
 		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
@@ -435,7 +467,7 @@ func ElizaResponse(str string) string {
 		//Concat the new opening line at the end of the function
 		return response
 	}
-	r1 = regexp.MustCompile(`I have (.*)`)
+	r1 = regexp.MustCompile(`(?im)^\s*I have ([^\.!]*)[\.!]*\s*$`)
 	matched = r1.MatchString(str)
 	if matched {
 		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
@@ -450,7 +482,7 @@ func ElizaResponse(str string) string {
 		//Concat the new opening line at the end of the function
 		return response
 	}
-	r1 = regexp.MustCompile(`I would (.*)`)
+	r1 = regexp.MustCompile(`(?im)^\s*I would ([^\.!]*)[\.!]*\s*$`)
 	matched = r1.MatchString(str)
 	if matched {
 		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
@@ -465,7 +497,7 @@ func ElizaResponse(str string) string {
 		//Concat the new opening line at the end of the function
 		return response
 	}
-	r1 = regexp.MustCompile(`Is there (.*)`)
+	r1 = regexp.MustCompile(`(?im)^\s*Is there ([^\.!]*)[\.!]*\s*$`)
 	matched = r1.MatchString(str)
 	if matched {
 		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
@@ -480,7 +512,7 @@ func ElizaResponse(str string) string {
 		//Concat the new opening line at the end of the function
 		return response
 	}
-	r1 = regexp.MustCompile(`My (.*)`)
+	r1 = regexp.MustCompile(`(?im)^\s*My ([^\.!]*)[\.!]*\s*$`)
 	matched = r1.MatchString(str)
 	if matched {
 		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
@@ -495,7 +527,7 @@ func ElizaResponse(str string) string {
 		//Concat the new opening line at the end of the function
 		return response
 	}
-	r1 = regexp.MustCompile(`You (.*)`)
+	r1 = regexp.MustCompile(`(?im)^\s*You ([^\.!]*)[\.!]*\s*$`)
 	matched = r1.MatchString(str)
 	if matched {
 		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
@@ -510,7 +542,7 @@ func ElizaResponse(str string) string {
 		//Concat the new opening line at the end of the function
 		return response
 	}
-	r1 = regexp.MustCompile(`Why (.*)`)
+	r1 = regexp.MustCompile(`(?im)^\s*Why ([^\.!]*)[\.!]*\s*$`)
 	matched = r1.MatchString(str)
 	if matched {
 		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
@@ -524,7 +556,7 @@ func ElizaResponse(str string) string {
 		//Concat the new opening line at the end of the function
 		return response
 	}
-	r1 = regexp.MustCompile(`I want (.*)`)
+	r1 = regexp.MustCompile(`(?im)^\s*I want ([^\.!]*)[\.!]*\s*$`)
 	matched = r1.MatchString(str)
 	if matched {
 		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
@@ -585,6 +617,37 @@ func ElizaResponse(str string) string {
 			"Do you remember any dreams or nightmares from childhood?",
 			"Did the other children sometimes tease you?",
 			"How do you think your childhood experiences relate to your feelings today?",
+		}
+		//Only keep the captured part of the string
+		//Pass in everything after the captured part of the statement to the function Reflections
+		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
+		//Concat the new opening line at the end of the function
+		return response
+	}
+	r1 = regexp.MustCompile(`(?im)^\s*hello([^\.!]*)[\.!]*\s*$`)
+	matched = r1.MatchString(str)
+	if matched {
+
+		answers := []string{
+			"Hi How are you?",
+			"I hope you are keeping well.",
+			"Hello I am happy you are talking with me.",
+			"Hello what are you thinking of asking me?",
+		}
+		//Only keep the captured part of the string
+		//Pass in everything after the captured part of the statement to the function Reflections
+		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
+		//Concat the new opening line at the end of the function
+		return response
+	}
+	//adapted from https://stackoverflow.com/questions/3012788/how-to-check-if-a-line-is-blank-using-regex
+	r1 = regexp.MustCompile(`^\s*$`)
+	matched = r1.MatchString(str)
+	if matched {
+
+		answers := []string{
+			"Can you please fill out the text box so i can speak with you?",
+			"Hoe can i talk with you if you jus put empty text into the chat box?",
 		}
 		//Only keep the captured part of the string
 		//Pass in everything after the captured part of the statement to the function Reflections
