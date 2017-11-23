@@ -72,8 +72,8 @@
             $('#main-view').append('<div class="response" id="output-area"><p>'+$('#input-text').val()+'</p></div>').html();
             //Dynamically create divs from an ajax response and user input from the text area.
             //These can then be styled and positioned with floats.
-           
-            
+            //update scroll function to keep the conversation baoxes at the bottom of the screen.
+            updateScroll();            
             //setTimeout used to delay the ajax response to create the illusion of eliza typing
             setTimeout(function() {
               $('#main-view').append('<div class="eliza-response" id="eliza-output-area"><p>'+(data)+'</p></div>').html();

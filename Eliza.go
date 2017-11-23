@@ -100,11 +100,12 @@ func ElizaResponse(str string) string {
 		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
 		//Test output of string from Reflections
 		//fmt.Println(reflectString)
-		answers := []string{"Perhaps you could " + reflectString + " if you tried.",
+		answers := []string{
+			"Perhaps you could " + reflectString + " if you tried.",
 			"How do you think that you can't " + reflectString + "?",
 			"Have you tried ?",
 			"Perhaps you could " + reflectString + " now.",
-			"Do you really want to be able to" + reflectString + "?",
+			"Do you really want to be able to " + reflectString + "?",
 		}
 		//replace and create the new string with the answer and changed nouns.
 		response := r1.ReplaceAllString(str, answers[rand.Intn(len(answers))])
@@ -115,7 +116,8 @@ func ElizaResponse(str string) string {
 	matched = r1.MatchString(str)
 	if matched {
 		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
-		answers := []string{"Why do you need " + reflectString + "?",
+		answers := []string{
+			"Why do you need " + reflectString + "?",
 			"Would it really help you to get " + reflectString + "?",
 			"Are you sure you need " + reflectString + "?"}
 		//Only keep the captured part of the string
@@ -124,7 +126,7 @@ func ElizaResponse(str string) string {
 		//Concat the new opening line at the end of the function
 		return response
 	}
-	r1 = regexp.MustCompile(`Why don\'?t you ([^\?]*)\??`)
+	r1 = regexp.MustCompile(`(?im)^\s*Why don't you ([^\.!]*)[\.!]*\s*$`)
 	matched = r1.MatchString(str)
 	if matched {
 		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
@@ -152,7 +154,7 @@ func ElizaResponse(str string) string {
 		//Concat the new opening line at the end of the function
 		return response
 	}
-	r1 = regexp.MustCompile(`Why can\'?t I ([^\?]*)\??`)
+	r1 = regexp.MustCompile(`(?im)^\s*Why can't i ([^\.!]*)[\.!]*\s*$`)
 	matched = r1.MatchString(str)
 	if matched {
 		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
@@ -287,7 +289,7 @@ func ElizaResponse(str string) string {
 		//Concat the new opening line at the end of the function
 		return response
 	}
-	r1 = regexp.MustCompile(`(?i)Yes`)
+	r1 = regexp.MustCompile(`(?im)^\s*Yes([^\.!]*)[\.!]*\s*$`)
 	matched = r1.MatchString(str)
 	if matched {
 
@@ -301,7 +303,7 @@ func ElizaResponse(str string) string {
 		//Concat the new opening line at the end of the function
 		return response
 	}
-	r1 = regexp.MustCompile(`(?i)No`)
+	r1 = regexp.MustCompile(`(?im)^\s*no([^\.!]*)[\.!]*\s*$`)
 	matched = r1.MatchString(str)
 	if matched {
 
@@ -320,7 +322,8 @@ func ElizaResponse(str string) string {
 	matched = r1.MatchString(str)
 	if matched {
 
-		answers := []string{"There are many times when no apology is needed.",
+		answers := []string{
+			"There are many times when no apology is needed.",
 			"What feelings do you have when you apologize?",
 		}
 		//Only keep the captured part of the string
@@ -329,7 +332,7 @@ func ElizaResponse(str string) string {
 		//Concat the new opening line at the end of the function
 		return response
 	}
-	r1 = regexp.MustCompile(`(.*) computer(.*)`)
+	r1 = regexp.MustCompile(`(.*) computer (.*)`)
 	matched = r1.MatchString(str)
 	if matched {
 
@@ -421,7 +424,7 @@ func ElizaResponse(str string) string {
 		//Concat the new opening line at the end of the function
 		return response
 	}
-	r1 = regexp.MustCompile(`(?im)^\s*You'?\s*re ([^\.!]*)[\.!]*\s*$`)
+	r1 = regexp.MustCompile(`(?im)^\s*You're ([^\.!]*)[\.!]*\s*$`)
 	matched = r1.MatchString(str)
 	if matched {
 		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
@@ -436,7 +439,7 @@ func ElizaResponse(str string) string {
 		//Concat the new opening line at the end of the function
 		return response
 	}
-	r1 = regexp.MustCompile(`(?im)^\s*I don'?\s*t ([^\.!]*)[\.!]*\s*$`)
+	r1 = regexp.MustCompile(`(?im)^\s*I don't ([^\.!]*)[\.!]*\s*$`)
 	matched = r1.MatchString(str)
 	if matched {
 		reflectString := Reflections(r1.ReplaceAllString(str, "$1"))
