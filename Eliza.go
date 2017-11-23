@@ -647,7 +647,7 @@ func ElizaResponse(str string) string {
 
 		answers := []string{
 			"Can you please fill out the text box so i can speak with you?",
-			"Hoe can i talk with you if you jus put empty text into the chat box?",
+			"How can i talk with you if you just put empty text into the chat box?",
 		}
 		//Only keep the captured part of the string
 		//Pass in everything after the captured part of the statement to the function Reflections
