@@ -159,8 +159,9 @@ An array of answers can be used to randomly return an answer with the reflected 
 ```
 
 The final response string is then returned to the application GUI and is held within another dynamically created div via JQuery.
+```javaScript
 $('#main-view').append('<div class="eliza-response" id="eliza-output-area"><p>'+(data)+'</p></div>').html();
-
+```
 A setTimeout function was used set to the ajax response to create the illusion of Eliza Typing the return message. 
 
 Resources used to create this app:
