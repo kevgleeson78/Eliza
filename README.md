@@ -167,18 +167,31 @@ A setTimeout function was used set to the ajax response to create the illusion o
 Resources used to create this app:
 
 https://startbootstrap.com/template-overviews/bare
+
 http://api.jquery.com/jquery.ajax
+
 https://stackoverflow.com/questions/9372033/how-do-i-pass-parameters-that-is-input-textbox-value-to-ajax-in-jquery
+
 https://github.com/data-representation/go-ajax/blob/master/static/index.html
+
 https://stackoverflow.com/questions/23805443/remove-the-form-input-fields-data-after-click-on-submit
+
 https://stackoverflow.com/questions/12430907/create-div-using-form-data-with-ajax-jquery
+
 https://stackoverflow.com/questions/42018775/pattern-matching-and-regular-expression-in-perl
+
 https://gist.github.com/ianmcloughlin/c4c2b8dc586d06943f54b75d9e2250fe
+
 https://github.com/data-representation/eliza/blob/master/data/responses.txt
+
 https://github.com/codeanticode/eliza/blob/master/data/eliza.script
+
 https://www.smallsurething.com/implementing-the-famous-eliza-chatbot-in-python
+
 https://stackoverflow.com/questions/37274282/regex-with-replace-in-golang
+
 https://regexone.com/lesson/letters_and_digits
+
 https://stackoverflow.com/questions/3012788/how-to-check-if-a-line-is-blank-using-regex
 
 
